@@ -230,6 +230,7 @@ const snapPageClass =
 export function HomeExperience() {
   useSectionWheelSnap(true);
   const brandAccent = "#f28c28";
+  const [activeScene, setActiveScene] = useState("hero");
   const [isPartnerPaused, setIsPartnerPaused] = useState(false);
   const productListRef = useRef<HTMLUListElement>(null);
   const [productScrollState, setProductScrollState] = useState({
@@ -301,6 +302,34 @@ export function HomeExperience() {
     if (!target) return;
     target.scrollIntoView({ behavior: "smooth", block: "start" });
   }, []);
+
+  useEffect(() => {
+    const scenes = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-snap-page][data-scene]"),
+    );
+    if (!scenes.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        let winner: IntersectionObserverEntry | null = null;
+        for (const entry of entries) {
+          if (!winner || entry.intersectionRatio > winner.intersectionRatio) {
+            winner = entry;
+          }
+        }
+        if (!winner || winner.intersectionRatio < 0.55) return;
+        const scene = winner.target.getAttribute("data-scene");
+        if (scene) setActiveScene(scene);
+      },
+      { threshold: [0.35, 0.55, 0.75, 0.92] },
+    );
+
+    scenes.forEach((scene) => observer.observe(scene));
+    return () => observer.disconnect();
+  }, []);
+
+  const sceneStateClass = (scene: string) =>
+    activeScene === scene ? "scene-active" : "scene-inactive";
 
   return (
     <div className="relative overflow-x-hidden bg-black text-zinc-100">
@@ -390,11 +419,42 @@ export function HomeExperience() {
         </div>
       </header>
 
+      <div className="pointer-events-none fixed right-4 top-1/2 z-40 hidden -translate-y-1/2 md:flex">
+        <div className="rounded-full border border-white/10 bg-black/35 px-2 py-3 backdrop-blur-xl">
+          <ul className="space-y-2" aria-label="Scene indicator">
+            {[
+              "hero",
+              "cinematic",
+              "products",
+              "company",
+              "history",
+              "quality",
+              "rnd",
+              "facilities",
+              "careers",
+              "contact",
+            ].map((scene) => (
+              <li key={scene}>
+                <span
+                  className={`block h-1.5 w-1.5 rounded-full transition-all duration-500 ${
+                    activeScene === scene
+                      ? "bg-white shadow-[0_0_14px_rgba(255,255,255,0.55)]"
+                      : "bg-white/30"
+                  }`}
+                  aria-hidden
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
       <main className="relative z-10">
         <section
           id="hero"
+          data-scene="hero"
           data-snap-page
-          className={`${snapPageClass} relative flex flex-col justify-center px-6 pt-[5rem] md:px-10 md:pt-20 lg:px-12 lg:pt-16`}
+          className={`${snapPageClass} ${sceneStateClass("hero")} relative flex flex-col justify-center px-6 pt-[5rem] md:px-10 md:pt-20 lg:px-12 lg:pt-16`}
           aria-labelledby="hero-heading"
         >
           <div className="absolute inset-0 z-0">
@@ -457,8 +517,9 @@ export function HomeExperience() {
         </section>
 
         <section
+          data-scene="cinematic"
           data-snap-page
-          className={`${snapPageClass} flex flex-col border-t border-white/[0.06] bg-black`}
+          className={`${snapPageClass} ${sceneStateClass("cinematic")} flex flex-col border-t border-white/[0.06] bg-black`}
           aria-label="시네마틱 필름"
         >
           <CinematicStrip videoSrc={resolvedVideoSrc} />
@@ -466,8 +527,9 @@ export function HomeExperience() {
 
         <section
           id="products"
+          data-scene="products"
           data-snap-page
-          className={`${snapPageClass} flex flex-col border-t border-white/[0.06] bg-[#030303] py-10 md:py-12`}
+          className={`${snapPageClass} ${sceneStateClass("products")} flex flex-col border-t border-white/[0.06] bg-[#030303] py-10 md:py-12`}
           aria-labelledby="products-heading"
         >
           <div className="mx-auto w-full max-w-[1100px] shrink-0 px-6 md:px-10 lg:px-12">
@@ -534,8 +596,9 @@ export function HomeExperience() {
 
         <section
           id="company"
+          data-scene="company"
           data-snap-page
-          className={`${snapPageClass} border-t border-white/[0.06] bg-black px-6 py-12 md:px-10 md:py-16 lg:px-12`}
+          className={`${snapPageClass} ${sceneStateClass("company")} border-t border-white/[0.06] bg-black px-6 py-12 md:px-10 md:py-16 lg:px-12`}
           aria-labelledby="company-heading"
         >
           <div className="mx-auto w-full max-w-[900px] space-y-10">
@@ -592,8 +655,9 @@ export function HomeExperience() {
 
         <section
           id="history"
+          data-scene="history"
           data-snap-page
-          className={`${snapPageClass} border-t border-white/[0.06] bg-[#030303] px-6 py-12 md:px-10 md:py-16 lg:px-12`}
+          className={`${snapPageClass} ${sceneStateClass("history")} border-t border-white/[0.06] bg-[#030303] px-6 py-12 md:px-10 md:py-16 lg:px-12`}
           aria-labelledby="history-heading"
         >
           <div className="mx-auto w-full max-w-[720px]">
@@ -750,8 +814,9 @@ export function HomeExperience() {
 
         <section
           id="quality"
+          data-scene="quality"
           data-snap-page
-          className={`${snapPageClass} border-t border-white/[0.06] bg-black px-6 py-12 md:px-10 md:py-16 lg:px-12`}
+          className={`${snapPageClass} ${sceneStateClass("quality")} border-t border-white/[0.06] bg-black px-6 py-12 md:px-10 md:py-16 lg:px-12`}
           aria-labelledby="quality-heading"
         >
           <div className="mx-auto w-full max-w-[1100px] space-y-10">
@@ -931,8 +996,9 @@ export function HomeExperience() {
 
         <section
           id="rnd"
+          data-scene="rnd"
           data-snap-page
-          className={`${snapPageClass} border-t border-white/[0.06] bg-[#030303] px-6 py-12 md:px-10 md:py-16 lg:px-12`}
+          className={`${snapPageClass} ${sceneStateClass("rnd")} border-t border-white/[0.06] bg-[#030303] px-6 py-12 md:px-10 md:py-16 lg:px-12`}
           aria-labelledby="rnd-heading"
         >
           <div className="mx-auto w-full max-w-[960px] space-y-8">
@@ -991,8 +1057,9 @@ export function HomeExperience() {
 
         <section
           id="facilities"
+          data-scene="facilities"
           data-snap-page
-          className={`${snapPageClass} border-t border-white/[0.06] bg-black px-6 py-12 md:px-10 md:py-16 lg:px-12`}
+          className={`${snapPageClass} ${sceneStateClass("facilities")} border-t border-white/[0.06] bg-black px-6 py-12 md:px-10 md:py-16 lg:px-12`}
           aria-labelledby="facilities-heading"
         >
           <div className="mx-auto w-full max-w-[1000px] space-y-10">
@@ -1064,8 +1131,9 @@ export function HomeExperience() {
 
         <section
           id="careers"
+          data-scene="careers"
           data-snap-page
-          className={`${snapPageClass} flex flex-col justify-center border-t border-white/[0.06] bg-[#030303] px-6 py-12 md:px-10 md:py-16 lg:px-12`}
+          className={`${snapPageClass} ${sceneStateClass("careers")} flex flex-col justify-center border-t border-white/[0.06] bg-[#030303] px-6 py-12 md:px-10 md:py-16 lg:px-12`}
           aria-labelledby="careers-heading"
         >
           <div className="mx-auto w-full max-w-[640px] text-center">
@@ -1087,8 +1155,9 @@ export function HomeExperience() {
 
         <footer
           id="contact"
+          data-scene="contact"
           data-snap-page
-          className={`${snapPageClass} flex flex-col justify-end border-t border-white/[0.08] bg-black px-6 py-12 md:px-10 md:py-16 lg:px-12`}
+          className={`${snapPageClass} ${sceneStateClass("contact")} flex flex-col justify-end border-t border-white/[0.08] bg-black px-6 py-12 md:px-10 md:py-16 lg:px-12`}
         >
           <Reveal>
             <div className="mx-auto grid w-full max-w-[1200px] gap-10 md:grid-cols-2 lg:grid-cols-3 lg:gap-12">

@@ -65,3 +65,25 @@ body {
 .partner-rail:hover .partner-marquee {
   animation-play-state: paused;
 }
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-snap-page] {
+    transition:
+      transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 520ms ease,
+      filter 520ms ease;
+    will-change: transform, opacity, filter;
+  }
+
+  [data-snap-page].scene-inactive {
+    opacity: 0.52;
+    filter: saturate(0.72) brightness(0.72);
+    transform: scale(0.986);
+  }
+
+  [data-snap-page].scene-active {
+    opacity: 1;
+    filter: saturate(1) brightness(1);
+    transform: scale(1);
+  }
+}

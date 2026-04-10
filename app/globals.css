@@ -68,6 +68,27 @@ body {
 }
 
 @media (prefers-reduced-motion: no-preference) {
+  .cinematic-shell {
+    inset: 7dvh 5vw;
+    overflow: hidden;
+    border-radius: 1.8rem;
+    transform: scale(0.9);
+    opacity: 0.88;
+    box-shadow: 0 44px 120px rgba(0, 0, 0, 0.45);
+    transition:
+      inset 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-radius 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 900ms cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 520ms ease;
+  }
+
+  .cinematic-shell.is-active {
+    inset: 0;
+    border-radius: 0;
+    transform: scale(1);
+    opacity: 1;
+  }
+
   [data-snap-page] {
     transition:
       transform 700ms cubic-bezier(0.22, 1, 0.36, 1),

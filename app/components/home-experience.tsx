@@ -149,14 +149,22 @@ function LinkChevron({
   );
 }
 
-function CinematicStrip({ videoSrc }: { videoSrc: string }) {
+function CinematicStrip({
+  videoSrc,
+  isActive,
+}: {
+  videoSrc: string;
+  isActive: boolean;
+}) {
   return (
     <section
       id="cinematic"
       className="relative isolate flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden bg-black"
       aria-labelledby="cinematic-heading"
     >
-      <div className="absolute inset-0">
+      <div
+        className={`cinematic-shell absolute ${isActive ? "is-active" : ""}`}
+      >
         <video
           className="absolute inset-0 z-0 h-full w-full scale-[1.03] object-cover opacity-100 motion-reduce:hidden"
           key={videoSrc}
@@ -507,7 +515,10 @@ export function HomeExperience() {
           className={`${snapPageClass} ${sceneStateClass("cinematic")} flex flex-col border-t border-white/[0.06] bg-black`}
           aria-label="시네마틱 필름"
         >
-          <CinematicStrip videoSrc={resolvedVideoSrc} />
+          <CinematicStrip
+            videoSrc={resolvedVideoSrc}
+            isActive={activeScene === "cinematic"}
+          />
         </section>
 
         <section

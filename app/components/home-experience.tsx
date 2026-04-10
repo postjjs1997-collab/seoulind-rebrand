@@ -227,6 +227,13 @@ function CinematicStrip({ videoSrc }: { videoSrc: string }) {
 const snapPageClass =
   "relative min-h-[100dvh] h-[100dvh] snap-start snap-always shrink-0 scroll-mt-0 overflow-y-auto overflow-x-hidden";
 
+const quickLinks = [
+  { label: "매장 찾기", href: "#contact" },
+  { label: "제품 라인업", href: "#products" },
+  { label: "회사연혁", href: "#history" },
+  { label: "쇼핑 도움말", href: "#contact" },
+];
+
 export function HomeExperience() {
   useSectionWheelSnap(true);
   const brandAccent = "#f28c28";
@@ -332,29 +339,14 @@ export function HomeExperience() {
     activeScene === scene ? "scene-active" : "scene-inactive";
 
   return (
-    <div className="relative overflow-x-hidden bg-black text-zinc-100">
+    <div className="relative overflow-x-hidden bg-[#070708] text-zinc-100">
       <div
-        className="pointer-events-none fixed inset-0 z-0 opacity-[0.22]"
-        style={{
-          backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px)
-          `,
-          backgroundSize: "72px 72px",
-        }}
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_90%_60%_at_50%_0%,rgba(30,58,138,0.12),transparent_55%),radial-gradient(ellipse_50%_45%_at_90%_40%,rgba(56,189,248,0.06),transparent_50%),radial-gradient(ellipse_40%_50%_at_0%_60%,rgba(99,102,241,0.05),transparent_45%)]"
-        aria-hidden
-      />
-      <div
-        className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.55)_100%)]"
+        className="pointer-events-none fixed inset-0 z-0 bg-[radial-gradient(ellipse_70%_45%_at_50%_0%,rgba(255,255,255,0.08),transparent_58%),radial-gradient(ellipse_60%_40%_at_50%_100%,rgba(0,0,0,0.62),transparent_60%)]"
         aria-hidden
       />
 
-      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.07] bg-black/55 backdrop-blur-2xl backdrop-saturate-150">
-        <div className="mx-auto flex min-h-[52px] max-w-[1400px] flex-wrap items-center justify-between gap-3 px-6 py-2 md:min-h-14 md:px-10 lg:px-12">
+      <header className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.08] bg-[#0b0b0d]/70 backdrop-blur-2xl backdrop-saturate-150">
+        <div className="mx-auto flex min-h-[48px] max-w-[1400px] flex-wrap items-center justify-between gap-3 px-6 py-2 md:min-h-[52px] md:px-10 lg:px-12">
           <Link
             href="#hero"
             onClick={(e) => {
@@ -378,7 +370,7 @@ export function HomeExperience() {
                   e.preventDefault();
                   smoothGoTo(item.href);
                 }}
-                className="group flex items-baseline gap-1.5 text-zinc-500 transition-colors hover:text-white lg:gap-2"
+                className="group flex items-baseline gap-1.5 text-zinc-400 transition-colors hover:text-white lg:gap-2"
               >
                 <span className="font-normal tabular-nums text-zinc-600 transition-colors group-hover:text-zinc-500">
                   {item.num}
@@ -511,6 +503,28 @@ export function HomeExperience() {
                 <LinkChevron href="#company">기업정보</LinkChevron>
                 <LinkChevron href="#products">제품 라인업</LinkChevron>
                 <LinkChevron href="#contact">오시는 길</LinkChevron>
+              </div>
+            </Reveal>
+            <Reveal delayMs={450}>
+              <div className="mt-10 rounded-[28px] border border-white/12 bg-white/[0.045] p-5 backdrop-blur-xl md:p-6">
+                <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-zinc-400">
+                  빠른 링크
+                </p>
+                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  {quickLinks.map((item) => (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        smoothGoTo(item.href);
+                      }}
+                      className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-[14px] text-zinc-200 transition-colors hover:border-white/25 hover:bg-white/[0.06]"
+                    >
+                      {item.label} <span className="text-zinc-400">›</span>
+                    </a>
+                  ))}
+                </div>
               </div>
             </Reveal>
           </div>

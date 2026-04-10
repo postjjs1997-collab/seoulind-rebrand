@@ -35,6 +35,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
+  letter-spacing: -0.01em;
 }
 
 ::selection {
@@ -76,9 +77,9 @@ body {
   }
 
   [data-snap-page].scene-inactive {
-    opacity: 0.52;
-    filter: saturate(0.72) brightness(0.72);
-    transform: scale(0.986);
+    opacity: 0.64;
+    filter: saturate(0.82) brightness(0.82);
+    transform: scale(0.992);
   }
 
   [data-snap-page].scene-active {

@@ -39,7 +39,6 @@ function currentSectionIndex(): number {
  */
 export function useSectionWheelSnap(enabled: boolean) {
   const lock = useRef(false);
-  const accum = useRef(0);
   const lockTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const touchStartY = useRef<number | null>(null);
 
@@ -101,20 +100,23 @@ export function useSectionWheelSnap(enabled: boolean) {
         return;
       }
 
-      const inner = verticalScrollParent(target);
-      if (inner) {
-        const atTop = inner.scrollTop <= 1;
-        const atBottom =
-          inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 2;
-        if (e.deltaY < 0 && !atTop) return;
-        if (e.deltaY > 0 && !atBottom) return;
+      // Rimac-like paging feel for top scenes: one wheel intent -> one section jump.
+      const current = currentSectionIndex();
+      const strictPaging = current <= 2;
+
+      if (!strictPaging) {
+        const inner = verticalScrollParent(target);
+        if (inner) {
+          const atTop = inner.scrollTop <= 1;
+          const atBottom =
+            inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 2;
+          if (e.deltaY < 0 && !atTop) return;
+          if (e.deltaY > 0 && !atBottom) return;
+        }
       }
 
-      accum.current += e.deltaY;
-      const threshold = 38;
-      if (Math.abs(accum.current) < threshold) return;
-      const dir = accum.current > 0 ? 1 : -1;
-      accum.current = 0;
+      if (Math.abs(e.deltaY) < 8) return;
+      const dir: 1 | -1 = e.deltaY > 0 ? 1 : -1;
 
       const y = window.scrollY;
       const maxY =

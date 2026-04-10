@@ -227,13 +227,6 @@ function CinematicStrip({ videoSrc }: { videoSrc: string }) {
 const snapPageClass =
   "relative min-h-[100dvh] h-[100dvh] snap-start snap-always shrink-0 scroll-mt-0 overflow-y-auto overflow-x-hidden";
 
-const quickLinks = [
-  { label: "매장 찾기", href: "#contact" },
-  { label: "제품 라인업", href: "#products" },
-  { label: "회사연혁", href: "#history" },
-  { label: "쇼핑 도움말", href: "#contact" },
-];
-
 export function HomeExperience() {
   useSectionWheelSnap(true);
   const brandAccent = "#f28c28";
@@ -503,28 +496,6 @@ export function HomeExperience() {
                 <LinkChevron href="#company">기업정보</LinkChevron>
                 <LinkChevron href="#products">제품 라인업</LinkChevron>
                 <LinkChevron href="#contact">오시는 길</LinkChevron>
-              </div>
-            </Reveal>
-            <Reveal delayMs={450}>
-              <div className="mt-10 rounded-[28px] border border-white/12 bg-white/[0.045] p-5 backdrop-blur-xl md:p-6">
-                <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-zinc-400">
-                  빠른 링크
-                </p>
-                <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                  {quickLinks.map((item) => (
-                    <a
-                      key={item.label}
-                      href={item.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        smoothGoTo(item.href);
-                      }}
-                      className="rounded-2xl border border-white/10 bg-black/35 px-4 py-3 text-[14px] text-zinc-200 transition-colors hover:border-white/25 hover:bg-white/[0.06]"
-                    >
-                      {item.label} <span className="text-zinc-400">›</span>
-                    </a>
-                  ))}
-                </div>
               </div>
             </Reveal>
           </div>

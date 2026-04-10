@@ -607,12 +607,15 @@ export function HomeExperience() {
               </h2>
             </Reveal>
             <Reveal delayMs={80}>
-              <div className="rounded-2xl border border-amber-500/20 bg-amber-500/[0.06] px-5 py-4 text-[14px] text-amber-100/90">
+              <Link
+                href="/notices"
+                className="block rounded-2xl border border-amber-500/20 bg-amber-500/[0.06] px-5 py-4 text-[14px] text-amber-100/90 transition-colors hover:border-amber-300/40 hover:bg-amber-500/[0.1]"
+              >
                 <strong className="font-medium">{notice.title}</strong>
                 <span className="mt-1 block text-amber-100/75">
                   {notice.body}
                 </span>
-              </div>
+              </Link>
             </Reveal>
             <Reveal delayMs={140}>
               <div>

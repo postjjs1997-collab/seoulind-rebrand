@@ -79,6 +79,14 @@ export default function NoticesPage() {
             </p>
           ) : null}
         </div>
+        <div className="mt-8 flex justify-end">
+          <Link
+            href="/portal/notices"
+            className="text-[12px] text-zinc-600 transition-colors hover:text-zinc-400"
+          >
+            관리자
+          </Link>
+        </div>
       </div>
     </main>
   );

@@ -607,15 +607,18 @@ export function HomeExperience() {
               </h2>
             </Reveal>
             <Reveal delayMs={80}>
-              <Link
-                href="/notices"
-                className="block rounded-2xl border border-amber-500/20 bg-amber-500/[0.06] px-5 py-4 text-[14px] text-amber-100/90 transition-colors hover:border-amber-300/40 hover:bg-amber-500/[0.1]"
+              <button
+                type="button"
+                onClick={() => {
+                  window.location.href = "/notices";
+                }}
+                className="block w-full cursor-pointer rounded-2xl border border-amber-500/20 bg-amber-500/[0.06] px-5 py-4 text-left text-[14px] text-amber-100/90 transition-colors hover:border-amber-300/40 hover:bg-amber-500/[0.1]"
               >
                 <strong className="font-medium">{notice.title}</strong>
                 <span className="mt-1 block text-amber-100/75">
                   {notice.body}
                 </span>
-              </Link>
+              </button>
             </Reveal>
             <Reveal delayMs={140}>
               <div>

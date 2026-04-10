@@ -64,7 +64,7 @@ export default function NoticesPage() {
                   </span>
                 ) : null}
                 <p className="text-[12px] text-zinc-500">
-                  업데이트 {formatDate(post.updatedAt)}
+                  업데이트 {formatDate(post.updated_at)}
                 </p>
               </div>
               <h2 className="mt-3 text-xl font-semibold text-white">{post.title}</h2>
